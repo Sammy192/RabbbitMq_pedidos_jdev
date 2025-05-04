@@ -8,7 +8,6 @@ import io.swagger.v3.oas.annotations.media.Schema;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import lombok.AllArgsConstructor;
-import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -33,7 +32,7 @@ public class PedidoController {
     @PostMapping
     private ResponseEntity<PedidoDTO> criarPedido(@RequestBody PedidoDTO pedido) {
         logger.info("Pedido id recebido: {}", pedido.getId());
-        PedidoDTO pedidoCriado = pedidoService.criarPedido(pedido);
+        PedidoDTO pedidoCriado = pedidoService.enfileirarPedido(pedido);
         return ResponseEntity.status(HttpStatus.CREATED).body(pedidoCriado);
     }
 }
