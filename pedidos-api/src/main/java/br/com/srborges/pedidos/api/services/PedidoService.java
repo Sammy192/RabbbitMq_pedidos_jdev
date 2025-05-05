@@ -1,6 +1,5 @@
 package br.com.srborges.pedidos.api.services;
 
-import br.com.srborges.pedidos.api.business.PedidoBO;
 import br.com.srborges.pedidos.api.dtos.PedidoDTO;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -21,10 +20,9 @@ public class PedidoService {
     private String exchangeName;
 
     public PedidoDTO enfileirarPedido(PedidoDTO pedido) {
-        PedidoBO pedidoBO = mapper.map(pedido, PedidoBO.class);
 
         rabbitTemplate.convertAndSend(exchangeName, "", pedido);
         log.info("Pedido enfileirado: {}", pedido.getId());
-        return mapper.map(pedidoBO, PedidoDTO.class);
+        return pedido;
     }
 }
