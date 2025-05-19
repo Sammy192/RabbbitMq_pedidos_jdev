@@ -6,9 +6,12 @@ import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
+
 
 @Data
 @NoArgsConstructor
@@ -18,11 +21,14 @@ import java.util.List;
 public class PedidoEntity {
 
     @Id
-    private Long id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long pk;
+    private Long idPedido;
     private String cliente;
 
+    @ToString.Exclude
     @OneToMany(mappedBy = "id.pedido")
-    private List<ItemPedidoEntity> itens;
+    private List<ItemPedidoEntity> itens = new ArrayList<>();
 
     private Double valorTotal;
     private String emailNotificacao;
