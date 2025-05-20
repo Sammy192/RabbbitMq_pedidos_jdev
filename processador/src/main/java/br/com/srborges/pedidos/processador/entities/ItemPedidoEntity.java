@@ -14,18 +14,23 @@ import java.util.Objects;
 @AllArgsConstructor
 public class ItemPedidoEntity {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
+    @EmbeddedId
+    private PedidoItemPK id;
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "produto_id")
-    private ProdutoEntity produto;
-
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "pedido_id")
+    @MapsId("pedidoId")
     private PedidoEntity pedido;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @MapsId("produtoId")
+    private ProdutoEntity produto;
 
     private Integer quantidade;
 
+    public ItemPedidoEntity(PedidoEntity pedido, ProdutoEntity produto, Integer quantidade) {
+        this.id = new PedidoItemPK(pedido.getId(), produto.getId());
+        this.pedido = pedido;
+        this.produto = produto;
+        this.quantidade = quantidade;
+    }
 }

@@ -22,7 +22,7 @@ public class ProdutoEntity {
 
     @JsonIgnore
     @ToString.Exclude
-    @Transient
+    //@Transient
     @OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemPedidoEntity> itensPedido = new ArrayList<>();
 }

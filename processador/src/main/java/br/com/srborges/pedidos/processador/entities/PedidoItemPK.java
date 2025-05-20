@@ -1,21 +1,22 @@
 package br.com.srborges.pedidos.processador.entities;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 import jakarta.persistence.JoinColumn;
 import jakarta.persistence.ManyToOne;
+import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
 @Data
 @Embeddable
 @NoArgsConstructor
+@AllArgsConstructor
 public class PedidoItemPK {
 
-    @ManyToOne
-    @JoinColumn(name = "pedido_pk")
-    private PedidoEntity pedido;
+    @Column(name = "pedido_id")
+    private Long pedidoId;
 
-    @ManyToOne
-    @JoinColumn(name = "produto_id")
-    private ProdutoEntity produto;
+    @Column(name = "produto_id")
+    private Long produtoId;
 }

@@ -38,11 +38,7 @@ public class PedidoService {
                         return produtoRepository.save(novoProduto);
                     });
 
-            ItemPedidoEntity itemPedidoEntity = ItemPedidoEntity.builder()
-                    .pedido(pedidoEntity)
-                    .produto(produtoEntity)
-                    .quantidade(itemDTO.getQuantidade())
-                    .build();
+            ItemPedidoEntity itemPedidoEntity = new ItemPedidoEntity(pedidoEntity, produtoEntity, itemDTO.getQuantidade());
 
             pedidoEntity.getItens().add(itemPedidoEntity);
 
