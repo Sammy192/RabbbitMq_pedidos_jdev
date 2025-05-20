@@ -1,6 +1,5 @@
 package br.com.srborges.pedidos.processador.services;
 
-import br.com.srborges.pedidos.processador.dtos.ItemPedidoDTO;
 import br.com.srborges.pedidos.processador.dtos.PedidoDTO;
 import br.com.srborges.pedidos.processador.entities.ItemPedidoEntity;
 import br.com.srborges.pedidos.processador.entities.PedidoEntity;
@@ -28,16 +27,26 @@ public class PedidoService {
 
         PedidoEntity pedidoEntity = copiaDadosDoDtoParaEntidade(pedidoDTO);
 
-        for(ItemPedidoDTO itemDTO : pedidoDTO.getItens()) {
-            //se produto ja existir na base
-            //ProdutoEntity produtoEntity = produtoRepository.getReferenceById(itemDTO.getProduto().getId());
+        pedidoDTO.getItens().stream().forEach(itemDTO -> {
+            ProdutoEntity produtoEntity = produtoRepository.findById(itemDTO.getProduto().getId())
+                    .orElseGet(() -> {
+                        ProdutoEntity novoProduto = ProdutoEntity.builder()
+                                .id(itemDTO.getProduto().getId())
+                                .nome(itemDTO.getProduto().getNome())
+                                .valor(itemDTO.getProduto().getValor())
+                                .build();
+                        return produtoRepository.save(novoProduto);
+                    });
 
-            ProdutoEntity produtoEntity = new ProdutoEntity(itemDTO.getProduto().getId(), itemDTO.getProduto().getNome(), itemDTO.getProduto().getValor());
-            produtoEntity = produtoRepository.save(produtoEntity);
+            ItemPedidoEntity itemPedidoEntity = ItemPedidoEntity.builder()
+                    .pedido(pedidoEntity)
+                    .produto(produtoEntity)
+                    .quantidade(itemDTO.getQuantidade())
+                    .build();
 
-            ItemPedidoEntity itemPedidoEntity = new ItemPedidoEntity(pedidoEntity, produtoEntity, itemDTO.getQuantidade(), produtoEntity.getValor());
             pedidoEntity.getItens().add(itemPedidoEntity);
-        }
+
+        });
         pedidoEntity.setStatus(StatusPedido.PROCESSADO);
 
         pedidoRepository.save(pedidoEntity);
@@ -47,7 +56,7 @@ public class PedidoService {
 
     private PedidoEntity copiaDadosDoDtoParaEntidade(PedidoDTO pedidoDTO) {
         PedidoEntity pedidoEntity = new PedidoEntity();
-        pedidoEntity.setIdPedido(pedidoDTO.getId());
+        pedidoEntity.setId(pedidoDTO.getId());
         pedidoEntity.setCliente(pedidoDTO.getCliente());
         pedidoEntity.setValorTotal(pedidoDTO.getValorTotal());
         pedidoEntity.setEmailNotificacao(pedidoDTO.getEmailNotificacao());

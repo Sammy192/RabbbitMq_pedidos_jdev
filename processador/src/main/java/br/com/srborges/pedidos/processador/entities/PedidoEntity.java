@@ -21,13 +21,12 @@ import java.util.List;
 public class PedidoEntity {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long pk;
-    private Long idPedido;
+    //@GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
     private String cliente;
 
     @ToString.Exclude
-    @OneToMany(mappedBy = "id.pedido")
+    @OneToMany(mappedBy = "pedido")
     private List<ItemPedidoEntity> itens = new ArrayList<>();
 
     private Double valorTotal;
