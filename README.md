@@ -87,3 +87,13 @@ Segue um exemplo de payload de pedido para teste.
 
 Após executar o envio do pedido poderá verificar no banco o mesmo salvo.
 
+Para acessar a página do RabbitMq, veja porta configurada no docker:
+````
+http://localhost:15672
+````
+
+Para acessar a página do Mailhog que recebe o email virtual enviado pelo Ms Notificação, veja porta configurada no docker:
+````
+http://localhost:8025
+````
+
