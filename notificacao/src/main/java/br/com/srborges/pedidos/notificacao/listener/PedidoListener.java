@@ -16,8 +16,12 @@ public class PedidoListener {
 
     @RabbitListener(queues = "pedidos.v1.pedido-criado.gerar-notificacao")
     public void enviarNotificacaoPedido(PedidoDTO pedidoDTO) {
+        log.info("Inicio da notificação de novo pedido. Pedido id: {}", pedidoDTO.getId());
+        /*if(pedidoDTO.getValorTotal() > 100) {
+            throw new RuntimeException("teste");
+        }*/
+
         emailService.enviarEmail(pedidoDTO);
         log.info("Notificação gerada. Pedido id: {}", pedidoDTO.getId());
     }
-
 }

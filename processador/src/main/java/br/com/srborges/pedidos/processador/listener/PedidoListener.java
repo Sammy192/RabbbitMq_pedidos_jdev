@@ -16,7 +16,8 @@ public class PedidoListener {
 
     @RabbitListener(queues = "pedidos.v1.pedido-criado.gerar-processamento")
     public void salvarPedido(PedidoDTO pedido) {
+        log.info("Pedido recebido: {}", pedido.getId());
         pedidoService.save(pedido);
+        log.info("Pedido salvo com sucesso: {}", pedido.getId());
     }
-
 }

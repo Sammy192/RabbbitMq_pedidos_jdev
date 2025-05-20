@@ -47,7 +47,6 @@ public class PedidoService {
 
         pedidoRepository.save(pedidoEntity);
         itemPedidoRepository.saveAll(pedidoEntity.getItens());
-
     }
 
     private PedidoEntity copiaDadosDoDtoParaEntidade(PedidoDTO pedidoDTO) {
